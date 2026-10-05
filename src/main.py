@@ -35,7 +35,7 @@ class main:
         x_pos = (width - self.window_width) // 2
         y_pos = (height- self.window_height) // 2
         if glfw.get_window_attrib(self.window,glfw.MAXIMIZED):
-            glfw.set_window_size(self.window,1920,1080)
+            glfw.set_window_size(self.window,width,height)
             #glfw.set_window_pos(self.window,0,29)
         else:
             glfw.set_window_pos(self.window,x_pos,y_pos)
