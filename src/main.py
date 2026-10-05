@@ -6,12 +6,12 @@ class main:
     def __init__(self,window_width,window_height):
         if not glfw.init():
             raise RuntimeError("Cannot initialize glfw library.")
-        parent_dir = Path(__file__).parent.parent
+        BASE_DIR = Path(__file__).parent.parent
         self.window_width = window_width
         self.window_height = window_height
         glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR,4)
         glfw.window_hint(glfw.CONTEXT_VERSION_MINOR,6)
-        img = Image.open(rf"{parent_dir}\icons\robot_icon.png")
+        img = Image.open(rf"{BASE_DIR}\icons\robot_icon.png")
         self.window = glfw.create_window(window_width,window_height,"Mapper",None,None)
         if not self.window:
                     glfw.terminate()
@@ -35,7 +35,7 @@ class main:
             glfw.set_window_size(self.window,width,height)
         else:
             glfw.set_window_pos(self.window,x_pos,y_pos)
-    def run(self)
+    def run(self):
         while not glfw.window_should_close(self.window):
             glClear(GL_COLOR_BUFFER_BIT)
             glfw.swap_buffers(self.window)
