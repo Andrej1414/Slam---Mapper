@@ -1,0 +1,11 @@
+#version 460 core
+
+layout(location = 0) in vec3 pos;
+layout(location = 1) in mat4 instance_matrix;
+
+uniform mat4 perspective;
+uniform mat4 view;
+
+void main(){
+    gl_Position = perspective * view * instance_matrix * vec4(pos.x,pos.y,pos.z,1.0);   
+}
