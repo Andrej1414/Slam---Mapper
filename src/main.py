@@ -1,11 +1,13 @@
 from OpenGL.GL import * 
 import glfw
 from pyglm import glm
-
 import time
 from PIL import Image
+
 from pathlib import Path
 from scene import Scene
+from camera import Camera
+
 class main:
     def __init__(self,window_width,window_height):
         if not glfw.init():
@@ -27,6 +29,7 @@ class main:
         glViewport(0,0,window_width,window_height)
         glEnable(GL_DEPTH_TEST)
         self.scene = Scene(1000)
+        self.camera = Camera(self.window_width / self.window_height)
         self.scene.use_shader()
     def set_window_size_callback(self,window,width,height):
         glViewport(0,0,width,height)
@@ -48,16 +51,8 @@ class main:
         start = time.perf_counter()
         poses_to_draw = 0
         view_loc = glGetUniformLocation(self.scene.shader.id,"view")
-        trans = glm.mat4(1)
-
-        trans = glm.translate(trans,glm.vec3(0,0,-3))
-        glUniformMatrix4fv(view_loc,1,GL_FALSE,glm.value_ptr(trans))
         projection_loc = glGetUniformLocation(self.scene.shader.id,'perspective')
-        projection = glm.perspective(glm.radians(45.0), 800.0 / 600.0, 0.1, 100.0)
-        glUniformMatrix4fv(projection_loc,1,GL_FALSE,glm.value_ptr(projection))
-
-        print(trans)
-        setted = False
+        self.camera.set_uniforms(projection_loc,view_loc)
         while not glfw.window_should_close(self.window):
             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
             end = time.perf_counter()
@@ -65,11 +60,9 @@ class main:
             if end - start > 0.5:
                 print(f"FPS : {counter} ")
                 counter = 0
-                if setted == False:
-                    pose = self.scene.generate_poses(100)
-                    #pose = self.scene.generate_identity()
-                    poses_to_draw = self.scene.upload_pose(pose,1000)
-                    #setted = True
+                pose = self.scene.generate_poses(100)
+                #pose = self.scene.generate_identity()
+                poses_to_draw = self.scene.upload_pose(pose,1000)
                 start = end
             glDrawElementsInstanced(GL_LINES,12,GL_UNSIGNED_INT,ctypes.c_void_p(0),poses_to_draw)    
             glfw.swap_buffers(self.window)
