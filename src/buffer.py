@@ -4,16 +4,10 @@ import numpy as np
 class Buffer:
     def __init__(self,poses):
         self.vbo = ctypes.c_uint()
-        buffer_size = poses*64 ### REMOVE MAGIC NUMBERS
-        test_matrix = np.array([
-            [1, 0, 0, 0],
-            [0, 1, 0, 0],
-            [0, 0, 1, 0],
-            [0, 0, 0, 1]
-        ], dtype=np.float32)
+        buffer_size = poses * 64 ### REMOVE MAGIC NUMBERS
         STORAGE_FLAGS = GL_DYNAMIC_STORAGE_BIT
         MAPPING_FLAGS = GL_MAP_WRITE_BIT | GL_MAP_READ_BIT | GL_MAP_COHERENT_BIT | GL_MAP_PERSISTENT_BIT
-        self.create_buffer(self.vbo,buffer_size,test_matrix,STORAGE_FLAGS | MAPPING_FLAGS)
+        self.create_buffer(self.vbo,buffer_size,None,STORAGE_FLAGS | MAPPING_FLAGS)
         self.buff_ptr = self.map_buffer(self.vbo,0,buffer_size,MAPPING_FLAGS)
     def create_buffer(self,vbo,size,data,flags):
         glCreateBuffers(1,vbo)
