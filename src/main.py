@@ -1,74 +1,39 @@
-from OpenGL.GL import * 
+from OpenGL.GL import *
 import glfw
-from pyglm import glm
 import time
-from PIL import Image
-
-from pathlib import Path
+from window import Window
 from scene import Scene
 from camera import Camera
+from shader import Shader
 
 class main:
     def __init__(self,window_width,window_height):
-        if not glfw.init():
-            raise RuntimeError("Cannot initialize glfw library.")
-        BASE_DIR = Path(__file__).parent.parent
-        self.window_width = window_width
-        self.window_height = window_height
-        glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR,4)
-        glfw.window_hint(glfw.CONTEXT_VERSION_MINOR,6)
-        img = Image.open(rf"{BASE_DIR}\icons\robot_icon.png")
-        self.window = glfw.create_window(window_width,window_height,"Mapper",None,None)
-        if not self.window:
-             glfw.terminate()
-        self.center_window()
-        glfw.set_window_icon(self.window,1,[img])
-        glfw.set_framebuffer_size_callback(self.window,self.set_window_size_callback)
-        glfw.make_context_current(self.window)
-        glClearColor(1,1,1,1)
-        glViewport(0,0,window_width,window_height)
-        glEnable(GL_DEPTH_TEST)
-        self.scene = Scene(1000)
-        self.camera = Camera(self.window_width / self.window_height)
-        self.scene.use_shader()
-    def set_window_size_callback(self,window,width,height):
-        glViewport(0,0,width,height)
-        self.window_width = width
-        self.window_height = height
-        self.center_window()
-    def center_window(self):
-        monitor = glfw.get_primary_monitor()
-        x_pos,y_pos,width,height = glfw.get_monitor_workarea(monitor)
-        x_pos = (width - self.window_width) // 2
-        y_pos = (height- self.window_height) // 2
-        if glfw.get_window_attrib(self.window,glfw.MAXIMIZED):
-            glfw.set_window_size(self.window,width,height)
-        else:
-            glfw.set_window_pos(self.window,x_pos,y_pos)
-    def run(self):
-        glBindVertexArray(self.scene.get_vao())
-        counter = 0
+        self.window = Window(window_width,window_height).get_window()
+        self.scene = Scene(10)
+        self.camera = Camera(window_width/window_height)
+        self.shader = Shader()
+        self.shader.use()
+        self.shader.set_uniform("perspective",self.camera.get_perpective())
+        self.shader.set_uniform("view",self.camera.get_view())
+        self.render()
+    def render(self):
         start = time.perf_counter()
-        poses_to_draw = 0
-        view_loc = glGetUniformLocation(self.scene.shader.id,"view")
-        projection_loc = glGetUniformLocation(self.scene.shader.id,'perspective')
-        self.camera.set_uniforms(projection_loc,view_loc)
+        poses_drawn = 0
+        glBindVertexArray(self.scene.get_vao())
         while not glfw.window_should_close(self.window):
-            glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
             end = time.perf_counter()
-            counter += 1
-            if end - start > 0.5:
-                print(f"FPS : {counter} ")
-                counter = 0
-                pose = self.scene.generate_poses(100)
-                #pose = self.scene.generate_identity()
-                poses_to_draw = self.scene.upload_pose(pose,1000)
+            if end - start > 1:
+                poses = self.scene.generate_poses(5)
+                poses_drawn = self.scene.upload_pose(poses,10)
                 start = end
-            glDrawElementsInstanced(GL_LINES,12,GL_UNSIGNED_INT,ctypes.c_void_p(0),poses_to_draw)    
+            glDrawElementsInstanced(GL_LINES,12,GL_UNSIGNED_INT,ctypes.c_void_p(0),poses_drawn)
             glfw.swap_buffers(self.window)
             glfw.poll_events()
         self.scene.destroy()
-        glfw.terminate()
+        self.shader.destroy()
+        glfw.terminate() 
 if __name__ == "__main__":
     main = main(800,600)
-    main.run()
+    
+

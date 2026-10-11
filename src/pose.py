@@ -18,7 +18,6 @@ class Pose:
         self.mesh_vbo = ctypes.c_uint()
         glCreateBuffers(1,self.mesh_vbo)
         glNamedBufferStorage(self.mesh_vbo,self.mesh_size,self.mesh,GL_DYNAMIC_STORAGE_BIT)
-        
         self.setup_vao(self.vao,self.mesh_vbo,instance_vbo,12,self.ibo)
     def setup_vao(self,mesh_vao,mesh_vbo,instance_buffer,mesh_stride,ibo):
         glVertexArrayVertexBuffer(mesh_vao,0,mesh_vbo,0,mesh_stride)

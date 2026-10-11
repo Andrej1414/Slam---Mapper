@@ -1,6 +1,7 @@
 from OpenGL.GL import *
 from pathlib import Path
 import glfw
+from pyglm import glm
 class Shader:
     def __init__(self,vertex_shader_path = r"shaders\vertex_shader.txt", fragment_shader_path =r"shaders\fragment_shader.txt"):
         BASE_DIR = Path(__file__).parent.parent
@@ -29,9 +30,12 @@ class Shader:
     def get_uniform_loc(self,name):
         loc = glGetUniformLocation(self.id,name)
         return loc
+    def set_uniform(self,name,value):
+        loc = glGetUniformLocation(self.id,name)
+        glUniformMatrix4fv(loc,1,GL_FALSE,glm.value_ptr(value))
     def use(self):
         glUseProgram(self.id)
-    def delete_program(self):
+    def destroy(self):
         glDeleteProgram(self.id)
 
 if __name__ == "__main__":

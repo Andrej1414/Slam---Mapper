@@ -1,14 +1,13 @@
 from OpenGL.GL import *
 import numpy as np
 from pose import Pose
-from shader import Shader
 from buffer import Buffer
 import random
 class Scene:
     def __init__(self,n_poses):
         self.buffer = Buffer(n_poses)
         self.pose = Pose(self.buffer.get_vbo())
-        self.shader = Shader()
+        #self.shader = Shader()
         self.offset = 0
         self.poses_drawn = 0
         self.pose_region = self.buffer.get_buffer_size() + self.buffer.get_buff_ptr()
@@ -52,13 +51,8 @@ class Scene:
         #                                [0,0,0,1]],np.float32)
         #trans_matrix.append(translation_mat)
         return trans_matrix
-    def use_shader(self):
-        return self.shader.use()
-    def get_uniform_loc(self,name):
-        return self.shader.get_uniform_loc(name)
     def get_vao(self):
         return self.pose.get_vao()
     def destroy(self):
-        self.shader.delete_program()
         self.pose.destroy()
         self.buffer.destroy()
