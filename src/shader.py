@@ -37,8 +37,3 @@ class Shader:
         glUseProgram(self.id)
     def destroy(self):
         glDeleteProgram(self.id)
-
-if __name__ == "__main__":
-    glfw.init()
-    glfw.make_context_current(glfw.create_window(800,600,"Test",None,None))
-    shader = Shader()

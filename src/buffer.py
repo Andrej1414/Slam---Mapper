@@ -25,10 +25,4 @@ class Buffer:
         return buffer_size.value
     def destroy(self):
         glDeleteBuffers(1,self.vbo)
-if __name__ == "__main__":
-    glfw.init()
-    glfw.make_context_current(glfw.create_window(800,600,"Test",None,None))
-    buffer = Buffer(15)
-    print(buffer.get_buffer_size())
-    print(buffer.get_vbo())
-    print(buffer.get_buff_ptr())
+

@@ -19,8 +19,7 @@ class Window:
         glfw.make_context_current(self.window)
         glClearColor(*gl_clear_color)
         glViewport(0,0,window_width,window_height)
-        glEnable(GL_DEPTH_TEST)
-        
+        glEnable(GL_DEPTH_TEST)   
     def create_window(self):
         window = glfw.create_window(self.window_width,self.window_height,"Mapper",None,None)
         if not window:
@@ -43,5 +42,3 @@ class Window:
             glfw.set_window_pos(self.window,x_pos,y_pos)
     def get_window(self):
         return self.window
-if __name__ == "__main__":
-    window = Window(800,600)
