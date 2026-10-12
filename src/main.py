@@ -11,7 +11,7 @@ from shader import Shader
 class main:
     def __init__(self,window_width,window_height):
         self.window = Window(window_width,window_height).get_window()
-        self.scene = Scene(n_poses=10000)
+        self.scene = Scene(n_poses=1000)
         self.camera = Camera(window_width/window_height)
         self.shader = Shader()
         self.shader.use()
@@ -35,7 +35,7 @@ class main:
                 poses = self.scene.generate_poses(1)
                 poses_drawn = self.scene.upload_pose(poses)
                 start = end
-            glDrawElementsInstanced(GL_LINES,16,GL_UNSIGNED_INT,ctypes.c_void_p(0),poses_drawn)
+            glDrawElementsInstanced(GL_LINES,12,GL_UNSIGNED_INT,ctypes.c_void_p(0),poses_drawn)
             glfw.swap_buffers(self.window)
             glfw.poll_events()
         self.scene.destroy()

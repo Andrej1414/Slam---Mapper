@@ -6,17 +6,9 @@ class Pose:
         self.mesh = np.array([[-0.5,0.5,0],
                               [0.5,0.5,0],
                              [0.5,-0.5,0],
-                              [-0.5,-0.5,0],
-                             [0,0,0]],np.float32)
-        #self.mesh = np.array([[-1,1,0],
-        #                      [1,1,0],
-        #                      [1,-1,0],
-        #                      [-1,-1,0],
-        #                      [0,0,0]],np.float32)
+                              [-0.5,-0.5,0]],np.float32)
         self.mesh_size = self.mesh.nbytes
-        #self.indices = np.array([[0,1],[1,2],[2,3],[3,0],[0,2],[1,3]],np.uint32)
-        #self.indices = np.array([[0,1,4],[1,2,4],[2,3,4],[3,0,4]],np.uint32)
-        self.indices = np.array([[0,1],[1,2],[2,3],[3,0],[0,4],[1,4],[2,4],[3,4]],np.uint32)
+        self.indices = np.array([[0,1],[1,2],[2,3],[3,0],[0,2],[1,3]],np.uint32)
         self.indices_size = self.indices.nbytes
         self.vao = ctypes.c_uint()
         glCreateVertexArrays(1,self.vao)
