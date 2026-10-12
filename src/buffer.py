@@ -2,9 +2,10 @@ from OpenGL.GL import *
 import glfw
 import numpy as np
 class Buffer:
-    def __init__(self,poses):
+    POSE_SIZE = 64 
+    def __init__(self,n_poses):
         self.vbo = ctypes.c_uint()
-        buffer_size = poses * 64 ### REMOVE MAGIC NUMBERS
+        buffer_size = n_poses * self.POSE_SIZE
         STORAGE_FLAGS = GL_DYNAMIC_STORAGE_BIT
         MAPPING_FLAGS = GL_MAP_WRITE_BIT | GL_MAP_READ_BIT | GL_MAP_COHERENT_BIT | GL_MAP_PERSISTENT_BIT
         self.create_buffer(self.vbo,buffer_size,None,STORAGE_FLAGS | MAPPING_FLAGS)
