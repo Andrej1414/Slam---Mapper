@@ -1,0 +1,18 @@
+#version 460 core
+
+in vec4 PointColor;
+in vec4 MeshColor;
+in bool DrawPointsFrag;
+
+out vec4 FragColor;
+
+void main(){
+    
+    if (DrawPointsFrag == True){
+        FragColor = PointColor;
+    }
+    else{
+        FragColor = MeshColor;
+    }
+
+}

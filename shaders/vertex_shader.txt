@@ -1,0 +1,26 @@
+#version 460 core
+
+layout(location = 0) in vec3 PointPos;
+layout(location = 1) in vec3 PosePos;
+layout(location = 2) in mat4 InstanceMatrix;
+
+uniform mat4 Perspective;
+uniform mat4 View;
+uniform bool DrawPoints;
+
+out vec3 PointColor;
+out vec3 MeshColor;
+out bool DrawPointsFrag;
+
+void main(){
+    if (draw_points == True){
+        gl_Position = Perspective * View * vec4(PointPos,1.0);
+        PointColor = vec4(1.0,1.0,1.0,1.0);
+        DrawPointsFrag = True;
+    }
+    else{
+        gl_Position = perspective * view * instance_matrix * vec4(PointPos,1.0);   
+        MeshColor = vec4(0.1,0.8,0.2,1);
+        DrawPointsFrag = False
+    }
+}
