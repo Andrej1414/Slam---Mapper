@@ -39,6 +39,22 @@ class Scene:
             map_point = [random.uniform(-1,1),random.uniform(-1,1),0]
             map_points.append(map_point)
         return map_points
+    def generate_spiral_points(self,resolution,rotations):
+        map_points = []
+        rotations = rotations * 360
+        angle_step = rotations / resolution
+        scale_step = 1/resolution
+        angle = 0
+        scale = scale_step
+        #print(f"Angle_step is :{angle_step}")
+        print(scale_step)
+        for point in range(resolution):
+            map_point = [scale*np.cos(np.deg2rad(angle+angle_step)),scale*np.sin(np.deg2rad(angle+angle_step)),0]
+            #print(angle+angle_step)
+            map_points.append(map_point)
+            scale += scale_step
+            angle += angle_step
+        return map_points
     def get_n_map_points(self):
         return self.n_map_points
     def get_map_point_vao(self):

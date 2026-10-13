@@ -26,7 +26,7 @@ class main:
         glClearColor(1,1,1,1)
         glViewport(0,0,window_width,window_height)
         glEnable(GL_PROGRAM_POINT_SIZE)
-        self.scene = Scene(15)
+        self.scene = Scene(10000)
         self.run()
     def set_window_size_callback(self,window,width,height):
         glViewport(0,0,width,height)
@@ -52,8 +52,9 @@ class main:
             starting_count += 1
             end = time.perf_counter()
             if end - start > 1:
-                points = self.scene.generate_map_point(3)
-                points_to_draw = self.scene.upload_map_points(points,15)
+                #points = self.scene.generate_map_point(3)
+                points = self.scene.generate_spiral_points(8000,1)
+                points_to_draw = self.scene.upload_map_points(points,10000)
                 start = end
             glDrawArrays(GL_POINTS,0,points_to_draw)
             glfw.swap_buffers(self.window)
