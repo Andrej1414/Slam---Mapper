@@ -28,6 +28,9 @@ class Shader:
     def set_mat4_uniform(self,name,value):
         loc = glGetUniformLocation(self.id,name)
         glUniformMatrix4fv(loc,1,GL_FALSE,glm.value_ptr(value))
+    def set_bool_uniform(self,name,value = 0):
+        loc = glGetUniformLocation(self.id,name)
+        glUniform1f(loc,value)
     def use(self):
         glUseProgram(self.id)
     def destroy(self):
