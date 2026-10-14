@@ -8,19 +8,16 @@ uniform mat4 Perspective;
 uniform mat4 View;
 uniform bool DrawPoints;
 
-out vec3 PointColor;
-out vec3 MeshColor;
-out bool DrawPointsFrag;
+out vec4 VertexColor;
 
 void main(){
-    if (draw_points == True){
+    if (DrawPoints){
         gl_Position = Perspective * View * vec4(PointPos,1.0);
-        PointColor = vec4(1.0,1.0,1.0,1.0);
-        DrawPointsFrag = True;
+        VertexColor = vec4(0.0,0.0,0.0,1.0);
+        gl_PointSize = 5;
     }
     else{
-        gl_Position = perspective * view * instance_matrix * vec4(PointPos,1.0);   
-        MeshColor = vec4(0.1,0.8,0.2,1);
-        DrawPointsFrag = False
+        gl_Position = Perspective * View * InstanceMatrix * vec4(PosePos,1.0);   
+        VertexColor = vec4(0.1,0.8,0.2,1.0);
     }
 }
