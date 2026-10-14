@@ -4,8 +4,8 @@ class Vbo:
     def __init__(self,n_poses,n_points):
         self.STORAGE_FLAGS = GL_DYNAMIC_STORAGE_BIT
         self.MAPPING_FLAGS = GL_MAP_READ_BIT | GL_MAP_WRITE_BIT | GL_MAP_COHERENT_BIT | GL_MAP_PERSISTENT_BIT
-        self.point_region_size = n_poses * 12
-        self.pose_region_size = n_points * 64
+        self.point_region_size = n_points * 12
+        self.pose_region_size = n_poses * 64
         self.vbo_size = self.point_region_size + self.pose_region_size
         self.create_buffer()
         self.buffer_ptr =  self.map_buffer()
@@ -19,7 +19,6 @@ class Vbo:
     def get_point_region(self):
         return self.point_region_size
     def get_pose_region(self):
-        self.pose_region_size
         return self.pose_region_size
     def destroy(self):
         glDeleteBuffers(1,self.vbo)
