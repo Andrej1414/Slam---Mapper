@@ -1,5 +1,6 @@
 from OpenGL.GL import *
-from pyglm import glm
+import numpy as np
+import random
 from vao import Vao
 from vbo import Vbo
 from point import Point
@@ -11,6 +12,8 @@ class Scene:
         self.vbo = Vbo(n_poses,n_points)
         self.point = Point()
         self.pose = Pose()
+        self.n_poses = n_poses
+        self.n_points = n_points
         pose_buffer_offset = n_points * self.point.POINT_SIZE
         self.point.setup_vao(self.vao.get_vao(),self.vbo.get_vbo(),0)
         self.pose.setup_vao(self.vao.get_vao(),self.vbo.get_vbo(),pose_buffer_offset)
@@ -25,9 +28,9 @@ class Scene:
     def upload_pose(self,pose):
         pose_size = pose.nbytes
         n_poses = len(pose)
-        dst = self.pose_addr + self.pose_draw_offset
-        if dst + pose_size > self.pose_region:
+        if self.pose_addr + self.pose_draw_offset + pose_size > self.pose_region:
             self.pose_draw_offset = 0
+        dst = self.pose_addr + self.pose_draw_offset
         ctypes.memmove(
             ctypes.c_void_p(dst),
             pose.ctypes.data,
@@ -35,13 +38,15 @@ class Scene:
         )
         self.pose_draw_offset += pose_size
         self.poses_to_draw += n_poses
+        if self.n_poses < self.poses_to_draw:
+            self.poses_to_draw = self.n_poses
         return self.poses_to_draw
     def upload_points(self,points):
         points_size = points.nbytes
         n_points = len(points)
+        if self.point_addr + self.point_draw_offset + points_size > self.point_region:
+            self.point_draw_offset = 0
         dst = self.point_addr + self.point_draw_offset
-        if dst + points_size > self.point_region:
-            self.point_draw_offset =0
         ctypes.memmove(
             ctypes.c_void_p(dst),
             points.ctypes.data,
@@ -49,8 +54,28 @@ class Scene:
         )
         self.point_draw_offset += points_size
         self.points_to_draw += n_points
+        if self.n_points < self.points_to_draw:
+            self.points_to_draw = self.n_points
         return self.points_to_draw
+    def generate_map_points(self,n_points):
+        map_points = []
+        for point in range(n_points):
+            map_point = [random.uniform(-1,1),random.uniform(-1,1),0]
+            map_points.append(map_point)
+        map_points = np.array(map_points,dtype=np.float32)
+        return map_points
+    def generate_poses(self,n_poses):
+        trans_matrix = []
+        for pose in range(n_poses):
+            translation_mat = np.array([[1,0,0,np.random.uniform(-1,1)],
+                                        [0,1,0,np.random.uniform(-1,1)],
+                                        [0,0,1,0],
+                                        [0,0,0,1]],np.float32)
+            trans_matrix.append(translation_mat.T)
+        return np.array(trans_matrix)
+    def get_vao(self):
+        return self.vao.get_vao()
     def destroy(self):
         self.vao.destroy()
-        self.vbo.destoy()
+        self.vbo.destroy()
         self.pose.destroy()
