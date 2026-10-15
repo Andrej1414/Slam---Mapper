@@ -35,13 +35,10 @@ class Shader:
     def set_bool_uniform(self,name,value = 0):
         loc = glGetUniformLocation(self.id,name)
         glUniform1i(loc,value)
+    def get_bool_loc(self,name):
+        loc = glGetUniformLocation(self.id,name)
+        return loc
     def use(self):
         glUseProgram(self.id)
     def destroy(self):
         glDeleteProgram(self.id)
-if __name__ =="__main__":
-    glfw.init()
-    glfw.make_context_current(glfw.create_window(800,600,"Test",None,None))
-    shader = Shader()
-    shader.use()
-    
