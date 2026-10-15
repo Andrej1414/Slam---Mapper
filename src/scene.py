@@ -73,6 +73,28 @@ class Scene:
                                         [0,0,0,1]],np.float32)
             trans_matrix.append(translation_mat.T)
         return np.array(trans_matrix)
+    def draw_sphere(self,circle_res,n_circles,radius = 1):
+        phi_step = 180 / n_circles
+        theta_step = 360 / (circle_res)
+        map_points = []
+        for circle in range(n_circles):
+            phi = circle * phi_step
+            for point in range(circle_res):
+                theta = point * theta_step
+                x = radius*np.sin(np.deg2rad(phi))*np.cos(np.deg2rad(theta))
+                y = radius*np.sin(np.deg2rad(phi))*np.sin(np.deg2rad(theta))
+                z = radius*np.cos(np.deg2rad(phi))
+                map_points.append([x,y,z])
+        return np.array(map_points,np.float32)
+    def draw_cube(self,resolution):
+        points = []
+        for point in range(resolution):
+            x = random.uniform(-1,1)
+            y = random.uniform(-1,1)
+            z = random.uniform(-1,1)
+            points.append([x,y,z])
+        points = np.array(points,np.float32)
+        return points
     def get_vao(self):
         return self.vao.get_vao()
     def destroy(self):

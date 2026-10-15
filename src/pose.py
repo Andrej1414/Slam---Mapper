@@ -23,8 +23,7 @@ class Pose:
         glVertexArrayAttribFormat(vao,1,3,GL_FLOAT,GL_FALSE,0)
         glVertexArrayAttribBinding(vao,1,1)
         glVertexArrayVertexBuffer(vao,2,instance_vbo,instance_offset,self.POSE_SIZE)
-        for instance in range(1,5):
-           
+        for instance in range(1,5):           
             glEnableVertexArrayAttrib(vao,instance+1)
             glVertexArrayAttribFormat(vao,instance+1,4,GL_FLOAT,GL_FALSE,(instance-1)*16)
             glVertexArrayAttribBinding(vao,instance+1,2)
