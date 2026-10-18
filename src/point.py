@@ -9,8 +9,12 @@ class Point:
         if color:
             self.point_size = self.POINT_COLOR_SIZE  
     def setup_vao(self,vao,instance_vbo,offset):
-        glVertexArrayVertexBuffer(vao,0,instance_vbo,offset,self.point_size)
+        glVertexArrayVertexBuffer(vao,0,instance_vbo,offset,24)
         glEnableVertexArrayAttrib(vao,0)
         glVertexArrayAttribFormat(vao,0,3,GL_FLOAT,GL_FALSE,0)
         glVertexArrayAttribBinding(vao,0,0)
+        if self.point_size == self.POINT_COLOR_SIZE:
+            glEnableVertexArrayAttrib(vao,6)
+            glVertexArrayAttribFormat(vao,6,3,GL_FLOAT,GL_FALSE,12)
+            glVertexArrayAttribBinding(vao,6,0)
     
