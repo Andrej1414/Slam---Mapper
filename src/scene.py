@@ -10,7 +10,7 @@ class Scene:
     def __init__(self,n_poses,n_points):
         self.vao = Vao()
         self.vbo = Vbo(n_poses,n_points)
-        self.point = Point()
+        self.point = Point(True)
         self.pose = Pose()
         self.n_poses = n_poses
         self.n_points = n_points
