@@ -3,6 +3,7 @@
 layout(location = 0) in vec3 PointPos;
 layout(location = 1) in vec3 PosePos;
 layout(location = 2) in mat4 InstanceMatrix;
+layout(location = 6) in vec3 PointColor;
 
 uniform mat4 Perspective;
 uniform mat4 View;
@@ -12,12 +13,12 @@ out vec4 VertexColor;
 
 void main(){
     if (DrawPoints){
-        gl_Position = Perspective * View * vec4(PointPos,1.0);
-        VertexColor = vec4(0.0,0.0,0.0,1.0);
+        gl_Position = vec4(PointPos,1.0);
+        VertexColor = vec4(PointColor,1.0);
         gl_PointSize = 5;
     }
     else{
-        gl_Position = Perspective * View * InstanceMatrix * vec4(PosePos,1.0);   
+    //    gl_Position = Perspective * View * InstanceMatrix * vec4(PosePos,1.0);   
         VertexColor = vec4(0.1,0.8,0.2,1.0);
     }
 }
