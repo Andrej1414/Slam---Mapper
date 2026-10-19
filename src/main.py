@@ -9,7 +9,7 @@ from scene import Scene
 class main:
     def __init__(self,window_width,window_height):
         self.window = Window(window_width,window_height).get_window()
-        self.camera = Camera(window_width,window_height)
+        self.camera = Camera(window_width,window_height,4)
         self.shader = Shader()
         self.scene = Scene(500,500)
         self.shader.use()
