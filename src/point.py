@@ -13,4 +13,9 @@ class Point:
         glEnableVertexArrayAttrib(vao,0)
         glVertexArrayAttribFormat(vao,0,3,GL_FLOAT,GL_FALSE,0)
         glVertexArrayAttribBinding(vao,0,0)
+        if self.point_size == self.POINT_COLOR_SIZE:
+            glEnableVertexArrayAttrib(vao,1)
+            glVertexArrayAttribFormat(vao,1,3,GL_FLOAT,GL_FALSE,12)
+            glVertexArrayAttribBinding(vao,1,0)
+
     
