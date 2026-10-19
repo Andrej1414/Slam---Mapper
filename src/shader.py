@@ -35,7 +35,7 @@ class Shader:
     def set_bool_uniform(self,name,value = 0):
         loc = glGetUniformLocation(self.id,name)
         glUniform1i(loc,value)
-    def get_bool_loc(self,name):
+    def get_uniform_loc(self,name):
         loc = glGetUniformLocation(self.id,name)
         return loc
     def use(self):
