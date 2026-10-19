@@ -25,9 +25,12 @@ class Scene:
         self.pose_region = self.pose_addr + self.vbo.get_pose_region()
         self.poses_to_draw = 0
         self.points_to_draw = 0
-    def upload_pose(self,pose):
+    def upload_pose(self,pose,max_poses):
         pose_size = pose.nbytes
         n_poses = len(pose)
+        if n_poses > max_poses:
+            pose = pose[:max_poses]
+            pose_size = pose.nbytes
         if self.pose_addr + self.pose_draw_offset + pose_size > self.pose_region:
             self.pose_draw_offset = 0
         dst = self.pose_addr + self.pose_draw_offset
@@ -41,9 +44,12 @@ class Scene:
         if self.n_poses < self.poses_to_draw:
             self.poses_to_draw = self.n_poses
         return self.poses_to_draw
-    def upload_points(self,points):
+    def upload_points(self,points,max_points):
         points_size = points.nbytes
         n_points = len(points)
+        if n_points > max_points:
+            points = points[:max_points]
+            points_size = points.nbytes
         if self.point_addr + self.point_draw_offset + points_size > self.point_region:
             self.point_draw_offset = 0
         dst = self.point_addr + self.point_draw_offset
