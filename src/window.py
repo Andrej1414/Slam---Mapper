@@ -2,6 +2,7 @@ from OpenGL.GL import *
 import glfw
 from PIL import Image
 from pathlib import Path
+from pyglm import glm
 class Window:
     def __init__(self,window_width,window_height,gl_clear_color = (1,1,1,1)):
         if not glfw.init():
@@ -16,11 +17,10 @@ class Window:
         self.center_window()
         glfw.set_window_icon(self.window,1,[window_icon])
         glfw.set_framebuffer_size_callback(self.window,self.set_framebuffer_size_callback)
+        glfw.set_input_mode(self.window,glfw.CURSOR,glfw.CURSOR_DISABLED)
         glfw.make_context_current(self.window)
         glClearColor(*gl_clear_color)
         glViewport(0,0,window_width,window_height)
-        glEnable(GL_PROGRAM_POINT_SIZE)
-        glEnable(GL_DEPTH_TEST)
     def create_window(self,window_width,window_height):
         window = glfw.create_window(window_width,window_height,"Mapper",None,None)
         if not window:
@@ -41,5 +41,9 @@ class Window:
             glfw.set_window_size(self.window,width,height)
         else:
             glfw.set_window_pos(self.window,x_pos,y_pos)
+    def set_cursor_pos_callback(self,fn):
+        glfw.set_cursor_pos_callback(self.window,fn)
+    def set_scroll_callback(self,fn):
+        glfw.set_scroll_callback(self.window,fn)
     def get_window(self):
         return self.window
