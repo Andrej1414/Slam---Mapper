@@ -2,10 +2,9 @@ from OpenGL.GL import *
 import time
 
 class Renderer:
-    def __init__(self,point_size):
+    def __init__(self):
         glEnable(GL_PROGRAM_POINT_SIZE)
-        glEnable(GL_DEPTH_TEST)
-        glPointSize(point_size)    
+        glEnable(GL_DEPTH_TEST)  
     def draw_points(self,bool_loc,points):
         draw_points = 1
         glUniform1i(bool_loc,draw_points)
