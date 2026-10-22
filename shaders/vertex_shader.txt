@@ -15,6 +15,7 @@ void main(){
     if (DrawPoints){
         gl_Position = Perspective * View * vec4(PointPos,1.0);
         VertexColor = vec4(PointColor,1.0);
+        gl_PointSize = 15 /(gl_Position.w);
     }
     else{
         gl_Position = Perspective * View * InstanceMatrix * vec4(PosePos,1.0);   
