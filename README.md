@@ -1,11 +1,11 @@
 # Slam Mapper
-Mapping software written in python with the help of OpenGL inteded to be used for rendering point clouds, ideally in the context of SLAM or SFM.
-### Disclaimer
-This project was made by me and only me without the help of LLM's, it was made for the sake of learning and building my own software.
-### Getting Started 
+- Mapping software written in python with the help of OpenGL inteded to be used for rendering point clouds, ideally in the context of SLAM or SFM.
+### Disclaimer ❗
+- This project was made by me and only me without the help of LLM's, it was made for the sake of learning and building my own software.
+### Getting Started ⭐
 - Install prerequisites with **"pip install -r requirements.txt"**
 - Run main.py with desired max points and poses.
-### Prerequisites:
+### Prerequisites: 🔰
 - python 3.10.X or higher
 - glfw==2.10.2
 - numpy==2.2.6
